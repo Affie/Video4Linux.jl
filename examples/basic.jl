@@ -1,5 +1,6 @@
 using Video4Linux
 using ImageView
+using Colors, ColorTypes
 
 # Warning! no memory and device protection is implemented yet, therefore doing things out of order will cause julia to crash!
 ##
@@ -29,6 +30,18 @@ uninit_device(fid)
 ## close device
 close_device(fid)
 
-## thes specific camera used in this test was 640x480 UYUY 4:2:2
-imgrey = reshape(imbuff[2:2:end],(640,480))'
-imshow(imgrey)
+## thes specific camera used in this test was 640x480 YCbCr 4:2:2
+imY = reshape(imbuff[2:2:end],(640,480))'
+imshow(imY)
+
+#recover colors
+imCbCr = imbuff[1:2:end]
+
+imCb = kron(reshape(imCbCr[1:2:end], (320,480))', [1 1])
+
+imCr = kron(reshape(imCbCr[2:2:end], (320,480))', [1 1])
+
+#create YCbCr array
+imcol = YCbCr.(imY, imCb, imCr)
+#convert to rgb and display
+imshow(convert.(RGB,imcol))
