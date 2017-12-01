@@ -12,7 +12,8 @@ start_capturing,
 mainloop,
 stop_capturing,
 uninit_device,
-close_device
+close_device,
+copy_buffer_bytes
 
 
 include("wrappers.jl")

@@ -1,5 +1,7 @@
 using Video4Linux
+using ImageView
 
+# Warning! no memory and device protection is implemented yet, therefore doing things out of order will cause julia to crash!
 ##
 set_io_method(0)
 
@@ -15,6 +17,9 @@ start_capturing(fid)
 ## mainloop(fd, frame_count);
 mainloop( fid, 1 )
 
+## copy_buffer_bytes, copy the image buffer bytes to uint8 vector, the lenght will depend on the pixel format
+imbuff = copy_buffer_bytes(640*480*2)
+
 ## stop_capturing(fd);
 stop_capturing(fid)
 
@@ -23,3 +28,7 @@ uninit_device(fid)
 
 ## close device
 close_device(fid)
+
+## thes specific camera used in this test was 640x480 UYUY 4:2:2
+imgrey = reshape(imbuff[2:2:end],(640,480))'
+imshow(imgrey)

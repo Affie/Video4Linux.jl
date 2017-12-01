@@ -37,3 +37,28 @@ function close_device(fid::Int)
 ## close device
     ccall((:close_device,:libv4lcapture), Void, (Int,), fid)
 end
+
+##
+# struct to save the buffer data
+struct Buffer8
+    start::Ptr{UInt8}
+    length::Csize_t
+end
+
+function get_global_bufferU8()
+    buffers = cglobal((:buffers, :libv4lcapture), Ptr{Buffer8})
+    buffers = cglobal((:buffers, :libv4lcapture), Ptr{Buffer8})
+    buf1 = unsafe_load(buffers,1)
+    buf = unsafe_load(buf1,1)
+end
+
+function copy_buffer_bytes(numbytes::Int)
+
+    buf = get_global_bufferU8()
+    if numbytes > Int(buf.length)
+        error("Trying to read more bytes than buffer size:")
+    end
+    im = zeros(UInt8, numbytes)
+    unsafe_copy!(pointer(im), buf.start, numbytes)
+    return im
+end
