@@ -8,6 +8,12 @@ This is work in progress and any suggestions and contributions are very welcome.
 
 [![codecov.io](http://codecov.io/github/Affie/Video4Linux.jl/coverage.svg?branch=master)](http://codecov.io/github/Affie/Video4Linux.jl?branch=master)
 
+## Installation
+The package is currently unregistered and can be installed and build with: (replace YOURREPONAME with your github fork name)
+```julia
+Pkg.clone("https://github.com/YOURREPONAME/Video4Linux.jl.git")
+Pkg.build("Video4Linux")
+```
 
 ## Kinect Example
 Currently the only camera tested is the Kenect using the v4l2 kernel driver.  
