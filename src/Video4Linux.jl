@@ -13,9 +13,14 @@ mainloop,
 stop_capturing,
 uninit_device,
 close_device,
-copy_buffer_bytes
+copy_buffer_bytes,
 
+
+#encodings
+y10bpacked2u16,
+convert422toYCbCr
 
 include("wrappers.jl")
+include("encodings.jl")
 
 end # module

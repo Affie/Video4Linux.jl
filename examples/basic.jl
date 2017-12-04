@@ -30,18 +30,18 @@ uninit_device(fid)
 ## close device
 close_device(fid)
 
-## thes specific camera used in this test was 640x480 YCbCr 4:2:2
-imY = reshape(imbuff[2:2:end],(640,480))'
-imshow(imY)
+## Kenect color image; manually set the driver to 640x480 YCbCr 4:2:2 for this test (can be done with qv4l2)
 
-#recover colors
-imCbCr = imbuff[1:2:end]
-
-imCb = kron(reshape(imCbCr[1:2:end], (320,480))', [1 1])
-
-imCr = kron(reshape(imCbCr[2:2:end], (320,480))', [1 1])
-
-#create YCbCr array
-imcol = YCbCr.(imY, imCb, imCr)
+imYCbCr = convert422toYCbCr(imbuff, 640, 480)
 #convert to rgb and display
-imshow(convert.(RGB,imcol))
+imshow(convert.(RGB,imYCbCr))
+
+
+## kenect 1 depth image, set kernel to depth with:
+    #sudo rmmod gspca_kinect
+    #sudo modprobe gspca_kinect depth_mode = 1
+
+depthvec = y10bpacked2u16(imbuff[1:384000])
+
+depthim = reshape(depthvec,(640,480))'
+imshow(depthim)
