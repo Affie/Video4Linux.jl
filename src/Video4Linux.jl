@@ -18,9 +18,19 @@ copy_buffer_bytes,
 
 #encodings
 y10bpacked2u16,
-convert422toYCbCr
+convert422toYCbCr,
+extract422Yonly,
+#decoders
+Y422,
+YCrCb422,
+Y10bit,
+
+
+#videotasks
+videoproducer
 
 include("wrappers.jl")
 include("encodings.jl")
+include("videotasks.jl")
 
 end # module
