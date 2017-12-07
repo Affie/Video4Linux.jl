@@ -3,7 +3,7 @@
  *
  *  Created on: 29 Nov 2017
  *      Author: Johannes Terblanche
-
+ *      Created from v4lcapture example
  * 	https://linuxtv.org/docs.php for more information
  */
 
@@ -73,7 +73,7 @@ static void process_image(const void *p, int size)
                 fwrite(p, size, 1, stdout);
 
         fflush(stderr);
-        fprintf(stderr, ". : %d", size);
+        fprintf(stderr, "bytes: %d\n", size);
         fflush(stdout);
 }
 
@@ -609,6 +609,3 @@ void test_stringin(char * stringin)
 {
 	fprintf(stderr, "String %s", stringin);
 }
-
-
-

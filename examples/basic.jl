@@ -4,7 +4,7 @@ using Colors, ColorTypes
 
 # Warning! no memory and device protection is implemented yet, therefore doing things out of order will cause julia to crash!
 ##
-set_io_method(0)
+set_io_method(Video4Linux.IO_METHOD_READ)
 
 ## open device
 fid = open_device("/dev/video0")

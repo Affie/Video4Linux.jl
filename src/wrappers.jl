@@ -1,7 +1,22 @@
+@enum IOMethods IO_METHOD_READ = 0 IO_METHOD_MMAP = 1 IO_METHOD_USERPTR = 3
 
 function set_io_method(method::Int64 = 0)
     ccall((:set_io_method,:libv4lcapture), Void, (Int64,), method)
 end
+
+"""
+    function set_io_method(method::IOMethods)
+Set the IO method to one of the following enumerated types:
+```
+    Video4Linux.IO_METHOD_READ
+    Video4Linux.IO_METHOD_MMAP
+    Video4Linux.IO_METHOD_USERPTR
+```
+"""
+function set_io_method(method::IOMethods)
+    ccall((:set_io_method,:libv4lcapture), Void, (Int64,), Int64(method))
+end
+
 
 function open_device(devicename::String = "/dev/video0")
 ## open device
