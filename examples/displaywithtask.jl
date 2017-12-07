@@ -1,7 +1,5 @@
 using Images, ImageView
-# using Video4Linux
-reload("Video4Linux")
-importall Video4Linux
+using Video4Linux
 
 
 #create a display function that consumes the video on channel vidchan
@@ -62,8 +60,8 @@ end
 
 ################################################################################
 #10bit packed
-reload("Video4Linux")
-import Video4Linux
+# reload("Video4Linux")
+# import Video4Linux
 
 function displaylive10bit!(im1, vidchan)
     im1 = take!(vidchan)
@@ -71,8 +69,8 @@ function displaylive10bit!(im1, vidchan)
 
 end
 
-y10b = Video4Linux.Y10bit(640,480)
-vidchan = Channel((c::Channel) -> Video4Linux.videoproducer(c, y10b))
+y10b = Y10bit(640,480)
+vidchan = Channel((c::Channel) -> videoproducer(c, y10b))
 
 ##
 #capture one frame to create im1 and canvas needed to diplay
