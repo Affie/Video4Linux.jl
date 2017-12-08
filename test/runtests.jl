@@ -38,7 +38,6 @@ using Base.Test
     #wrapper
     @test set_io_method() == nothing
     @test set_io_method(Int64(0)) == nothing
-    @test set_io_method(Int64(1)) == nothing
-    @test set_io_method(Int64(2)) == nothing
+    @test set_io_method(Video4Linux.IO_METHOD_READ) == nothing
 
 end

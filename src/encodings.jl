@@ -53,3 +53,86 @@ function convert422toYCbCr(imbuff::Vector{UInt8}, width::Int, height::Int)
     return YCbCr.(imY, imCb, imCr)
 
 end
+
+
+"""
+    convert422to444(imbuff::Vector{UInt8}, width::Int, height::Int)
+
+Convert a 4:2:2 encoded YCbCr buffer [`::Vector{UInt8}`] to full 4:4:4 buffer [`::Matrix{UInt8}[3]`]
+"""
+function convert422to444(imbuff::Vector{UInt8}, width::Int, height::Int)
+
+    halfwidth = div(width,2)
+
+    imY = reshape(imbuff[2:2:end],(width,height))'
+
+    #recover colors
+    imCbCr = imbuff[1:2:end]
+
+    imCb = kron(reshape(imCbCr[1:2:end], (halfwidth,height))', [1 1])
+
+    imCr = kron(reshape(imCbCr[2:2:end], (halfwidth,height))', [1 1])
+
+    #create YCbCr array
+    return cat(3, imY, imCb, imCr)
+
+end
+
+
+"""
+    extract422Yonly(imbuff::Vector{UInt8}, width::Int, height::Int)
+
+Extract the Y component out of a 4:2:2 YCbCr buffer
+"""
+function extract422Yonly(imbuff::Vector{UInt8}, width::Int, height::Int)
+    reshape(imbuff[2:2:end],(width,height))'
+end
+
+##
+
+abstract type AbstractEncodings end
+
+struct Y422 <: AbstractEncodings
+    width::Int
+    height::Int
+    depth::Int
+    datatype::DataType
+end
+Y422(width::Int, height::Int) = Y422(width, height, 1, UInt8)
+
+function (decoder::Y422)(imy::Array{UInt8,2})
+    imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
+    imy[:,:] = reshape(imbuff[2:2:end],(decoder.width, decoder.height))'
+    return nothing
+end
+
+
+struct YCbCr422 <: AbstractEncodings
+    width::Int
+    height::Int
+    depth::Int
+    datatype::DataType
+end
+YCbCr422(width::Int, height::Int) = YCbCr422(width, height, 3, UInt8)
+
+function (decoder::YCbCr422)(im444::Array{UInt8,3})
+    imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
+    im444[:] = convert422to444(imbuff, decoder.width, decoder.height)
+    return nothing
+end
+
+
+struct Y10bit <: AbstractEncodings
+    width::Int
+    height::Int
+    depth::Int
+    datatype::DataType
+end
+Y10bit(width::Int, height::Int) = Y10bit(width, height, 1, UInt16)
+
+function (decoder::Y10bit)(imy10b::Array{UInt16,2})
+    imbuff = copy_buffer_bytes(div(decoder.width * decoder.height * 10,8))
+    # imy10b[:] = y10bpacked2u16(imbuff)
+    imy10b[:] = reshape(y10bpacked2u16(imbuff), (decoder.width, decoder.height))'
+    return nothing
+end
