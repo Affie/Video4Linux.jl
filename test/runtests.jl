@@ -59,4 +59,12 @@ using Base.Test
     @test set_io_method(Int64(0)) == nothing
     @test set_io_method(Video4Linux.IO_METHOD_READ) == nothing
 
+    #for now these should just not break julia
+    fid = open_device("/dev/video0")
+    init_device(fid)
+    start_capturing(fid)
+    stop_capturing(fid)
+    uninit_device(fid)
+    close_device(fid)
+    
 end
