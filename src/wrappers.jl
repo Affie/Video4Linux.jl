@@ -1,3 +1,7 @@
+
+"""
+Enumerated type for IO method used
+"""
 @enum IOMethods IO_METHOD_READ = 0 IO_METHOD_MMAP = 1 IO_METHOD_USERPTR = 3
 
 function set_io_method(method::Int64 = 0)

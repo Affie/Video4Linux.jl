@@ -15,15 +15,11 @@ uninit_device,
 close_device,
 copy_buffer_bytes,
 
-
-#encodings
-y10bpacked2u16,
-convert422toYCbCr,
-extract422Yonly,
+#convertions TODO: extend convert
+convertY10BtoU16,
+convertUYVYtoYCbCr,
+convertYUYVtoYCbCr,
 #decoders
-Y422,
-YCbCr422,
-Y10bit,
 
 
 #videotasks
