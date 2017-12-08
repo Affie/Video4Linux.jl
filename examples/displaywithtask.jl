@@ -13,9 +13,9 @@ end
 
 ##
 #Creaete Y component only 4:2:2 decoder type
-yonly = Y422(640,480)
+yonly = Video4Linux.UYVYonlyY(640,480)
 # create a videoproducer type channel (will only run 100 frames)
-vidchan = Channel((c::Channel) -> videoproducer(c, yonly))
+vidchan = Channel((c::Channel) -> videoproducer(c, yonly, devicename = "/dev/video0", iomethod = Video4Linux.IO_METHOD_READ))
 
 ##
 #capture one frame to create im1 and canvas needed to diplay
@@ -41,7 +41,7 @@ function displaylive!(im1, vidchan)
 
 end
 
-ycrcb = YCbCr422(640,480)
+ycrcb = Video4Linux.UYVY(640,480)
 vidchan = Channel((c::Channel) -> videoproducer(c, ycrcb))
 
 ##
@@ -63,13 +63,13 @@ end
 # reload("Video4Linux")
 # import Video4Linux
 
-function displaylive10bit!(im1, vidchan)
+function displaylive10bit!(im1, vidchan, devicename = "/dev/video1")
     im1 = take!(vidchan)
     imshow(canvas["gui"]["canvas"], im1)
 
 end
 
-y10b = Y10bit(640,480)
+y10b = Video4Linux.Y10B(640,480)
 vidchan = Channel((c::Channel) -> videoproducer(c, y10b))
 
 ##

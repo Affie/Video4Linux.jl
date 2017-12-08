@@ -2,10 +2,10 @@
     vidproducer(c::Channel, reader::T, devicename::String = "/dev/video0",  N::Int = 100) where T <: AbstractEncodings
 
 """
-function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0",  N::Int = 100) where T <: AbstractEncodings
+function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0",  N::Int = 100, iomethod::IOMethods = Video4Linux.IO_METHOD_READ) where T <: AbstractEncodings
 
     ##
-    set_io_method(Video4Linux.IO_METHOD_READ)
+    set_io_method(iomethod)
 
     ## open device
     fid = open_device(devicename)
@@ -15,7 +15,6 @@ function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0
 
     ## start_capturing(fd);
     start_capturing(fid)
-    @show decoder
 
     imy = (decoder.depth > 1)? zeros(decoder.datatype, decoder.height, decoder.width, decoder.depth) :
                                zeros(decoder.datatype, decoder.height, decoder.width)

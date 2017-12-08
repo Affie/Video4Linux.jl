@@ -28,8 +28,8 @@ using ImageView
 using Colors, ColorTypes
 
 # Warning! no memory and device protection is implemented yet, therefore doing things out of order will cause julia to crash!
-## set io method to read()
-set_io_method(Int64(0))
+## set io method to read() for the Kenect depth image. NOTE: if your device does not support read try using Video4Linux.IO_METHOD_MMAP
+set_io_method(Video4Linux.IO_METHOD_READ)
 ## open device
 fid = open_device("/dev/video0")
 ## init_device(fd, force_format);
@@ -47,7 +47,7 @@ uninit_device(fid)
 ## close device
 close_device(fid)
 ## kenect 1 depth image, set kernel to depth with:
-depthvec = y10bpacked2u16(imbuff[1:384000])
+depthvec = convertY10BtoU16(imbuff[1:384000])
 depthim = reshape(depthvec,(640,480))'
 imshow(depthim)
 ```
