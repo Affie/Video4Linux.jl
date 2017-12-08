@@ -15,6 +15,11 @@ Pkg.clone("https://github.com/YOURREPONAME/Video4Linux.jl.git")
 Pkg.build("Video4Linux")
 ```
 
+## Device Setup
+No automatic setup is currently performed but there are utilities to make this easy: 
+qv4l2 (install with: `sudo apt-get install qv4l2`)
+qv4l2 provides a gui of the ioctl of the device. Settings such as frame size and capture format can easily be changed.
+
 ## Kinect Example
 Currently the only camera tested is the Kenect using the v4l2 kernel driver.  
 This example was run on an raspberry pi 3 with Rasbian and julia 0.6.   
