@@ -22,7 +22,7 @@ convert422toYCbCr,
 extract422Yonly,
 #decoders
 Y422,
-YCrCb422,
+YCbCr422,
 Y10bit,
 
 
