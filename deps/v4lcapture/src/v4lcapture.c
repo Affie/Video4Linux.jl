@@ -46,8 +46,6 @@ static enum io_method   io = IO_METHOD_MMAP;
 //static
 struct buffer          *buffers;
 static unsigned int     n_buffers;
-static int              out_buf;
-
 
 
 static void errno_display(const char *s)
@@ -67,15 +65,6 @@ static int xioctl(int fh, int request, void *arg)
         return r;
 }
 
-static void process_image(const void *p, int size)
-{
-        if (out_buf)
-                fwrite(p, size, 1, stdout);
-
-        fflush(stderr);
-        fprintf(stderr, "bytes: %d\n", size);
-        fflush(stdout);
-}
 
 static int read_frame(int fd)
 {
@@ -100,8 +89,8 @@ static int read_frame(int fd)
                                 break;
                         }
                 }
-
-                process_image(buffers[0].start, buffers[0].length);
+                // process_image(buffers[0].start, buffers[0].length);
+                fprintf(stderr, "bytes: %lu\n",  buffers[0].length);
                 break;
 
         case IO_METHOD_MMAP:
@@ -129,7 +118,8 @@ static int read_frame(int fd)
 
                 assert(buf.index < n_buffers);
 
-                process_image(buffers[buf.index].start, buf.bytesused);
+                // process_image(buffers[buf.index].start, buf.bytesused);
+                fprintf(stderr, "bytes: %d\n",  buf.bytesused);
 
                 if (-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
                         errno_display("VIDIOC_QBUF");
@@ -167,7 +157,8 @@ static int read_frame(int fd)
 
                 assert(i < n_buffers);
 
-                process_image((void *)buf.m.userptr, buf.bytesused);
+                // process_image((void *)buf.m.userptr, buf.bytesused);
+                fprintf(stderr, "bytes: %d\n",  buf.bytesused);
 
                 if (-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
                         errno_display("VIDIOC_QBUF");
