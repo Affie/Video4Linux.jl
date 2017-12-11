@@ -175,6 +175,20 @@ function (decoder::UYVY)(im444::Array{UInt8,3})
     return nothing
 end
 
+struct YUYVonlyY <: AbstractEncodings
+    width::Int
+    height::Int
+    depth::Int
+    datatype::DataType
+end
+YUYVonlyY(width::Int, height::Int) = YUYVonlyY(width, height, 1, UInt8)
+
+function (decoder::YUYVonlyY)(imy::Array{UInt8,2})
+    imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
+    imy[:,:] = reshape(imbuff[1:2:end],(decoder.width, decoder.height))'
+    return nothing
+end
+
 
 struct YUYV <: AbstractEncodings
     width::Int
