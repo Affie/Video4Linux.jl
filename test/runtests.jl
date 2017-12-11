@@ -56,15 +56,34 @@ using Base.Test
 
     #wrapper
     @test set_io_method() == nothing
-    @test set_io_method(Int64(0)) == nothing
-    @test set_io_method(Video4Linux.IO_METHOD_READ) == nothing
+    @test set_io_method(Int32(0)) == nothing
+    @test set_io_method(Video4Linux.IO_METHOD_MMAP) == nothing
 
     #for now these should just not break julia
     fid = open_device("/dev/video0")
-    init_device(fid)
-    start_capturing(fid)
-    stop_capturing(fid)
-    uninit_device(fid)
-    close_device(fid)
-    
+    init_device(Int32(0))
+    start_capturing(Int32(0))
+    stop_capturing(Int32(0))
+    uninit_device(Int32(0))
+    close_device(Int32(0))
+    temptestvalue = 0
+    try
+        # this should through error to protect julia from crashing
+        mainloop( Int32(-1), 1 )
+    catch
+        temptestvalue = 1
+    end
+    @test 1 == temptestvalue
+
+    # some more api
+    d1 = Video4Linux.UYVY(640,480)
+    d2 = Video4Linux.UYVYonlyY(640,480)
+    d3 = Video4Linux.Y10B(640,480)
+
+    #also just test not te break julia
+    vidchan = Channel((c::Channel) -> videoproducer(c, d1))
+    vidchan = Channel((c::Channel) -> videoproducer(c, d2, devicename = "/dev/video0"))
+    vidchan = Channel((c::Channel) -> videoproducer(c, d3, devicename = "/dev/video0", iomethod = Video4Linux.IO_METHOD_READ))
+
+
 end

@@ -60,8 +60,7 @@ end
 
 ################################################################################
 #10bit packed
-# reload("Video4Linux")
-# import Video4Linux
+
 
 function displaylive10bit!(im1, vidchan, devicename = "/dev/video1")
     im1 = take!(vidchan)
