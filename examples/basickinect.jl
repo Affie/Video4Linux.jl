@@ -31,14 +31,14 @@ uninit_device(fid)
 ## close device
 close_device(fid)
 
-## Kenect color image; manually set the driver to 640x480 YCbCr 4:2:2 for this test (can be done with qv4l2)
+## kinect color image; manually set the driver to 640x480 YCbCr 4:2:2 for this test (can be done with qv4l2)
 
 imYCbCr = convertUYVYtoYCbCr(imbuff, 640, 480)
 #convert to rgb and display
 imshow(convert.(RGB,imYCbCr))
 
 
-## kenect 1 depth image, set kernel to depth with:
+## kinect 1 depth image, set kernel to depth with:
     #sudo rmmod gspca_kinect
     #sudo modprobe gspca_kinect depth_mode = 1
 
