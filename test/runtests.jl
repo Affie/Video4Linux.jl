@@ -78,7 +78,9 @@ using Base.Test
     # some more api
     d1 = Video4Linux.UYVY(640,480)
     d2 = Video4Linux.UYVYonlyY(640,480)
-    d3 = Video4Linux.Y10B(640,480)
+    d3 = Video4Linux.YUYV(640,480)
+    d4 = Video4Linux.YUYVonlyY(640,480)
+    d5 = Video4Linux.Y10B(640,480)
 
     #also just test not te break julia
     vidchan = Channel((c::Channel) -> videoproducer(c, d1))
