@@ -5,8 +5,8 @@ This is work in progress and any suggestions and contributions are very welcome.
 
 
 [![Build Status](https://travis-ci.org/Affie/Video4Linux.jl.svg?branch=master)](https://travis-ci.org/Affie/Video4Linux.jl)
-
 [![codecov.io](http://codecov.io/github/Affie/Video4Linux.jl/coverage.svg?branch=master)](http://codecov.io/github/Affie/Video4Linux.jl?branch=master)
+[![docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://affie.github.io/Video4Linux.jl/latest/)
 
 ## Installation
 The package is currently unregistered and can be installed and build with: (replace YOURREPONAME with your github fork name)
