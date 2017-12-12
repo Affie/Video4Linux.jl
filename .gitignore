@@ -5,3 +5,4 @@
 
 deps/v4lcapture/build/
 deps/loadpath.jl
+docs/build
