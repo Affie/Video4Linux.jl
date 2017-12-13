@@ -39,6 +39,9 @@ enum io_method {
 struct buffer {
         void   *start;
         size_t  length;
+        unsigned int width;
+        unsigned int height;
+        unsigned int pixelformat;
 };
 
 
@@ -541,6 +544,7 @@ int init_device(int fd, int force_format)
                 }
         }
 
+
         /* Buggy driver paranoia. */
         min = fmt.fmt.pix.width * 2;
         if (fmt.fmt.pix.bytesperline < min)
@@ -551,11 +555,27 @@ int init_device(int fd, int force_format)
 
         switch (io) {
         case IO_METHOD_READ:
-                return init_read(fmt.fmt.pix.sizeimage);
+                if (EXIT_SUCCESS == init_read(fmt.fmt.pix.sizeimage)){
+                        // set pixel information on buffer[0]
+                        buffers[0].width = fmt.fmt.pix.width;
+                        buffers[0].height = fmt.fmt.pix.height;
+                        buffers[0].pixelformat = fmt.fmt.pix.pixelformat;
+                        return EXIT_SUCCESS;
+                }
+                else
+                        return EXIT_FAILURE;
                 break;
 
         case IO_METHOD_MMAP:
-                return init_mmap(fd);
+                if (EXIT_SUCCESS == init_mmap(fd)){
+                        // set pixel information on buffer[0]
+                        buffers[0].width = fmt.fmt.pix.width;
+                        buffers[0].height = fmt.fmt.pix.height;
+                        buffers[0].pixelformat = fmt.fmt.pix.pixelformat;
+                        return EXIT_SUCCESS;
+                }
+                else
+                        return EXIT_FAILURE;
                 break;
 
         case IO_METHOD_USERPTR:
@@ -565,6 +585,8 @@ int init_device(int fd, int force_format)
                 return EXIT_FAILURE;
                 break;
         }
+
+
 }
 
 int close_device(int fd)

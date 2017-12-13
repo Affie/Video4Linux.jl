@@ -21,6 +21,12 @@ mainloop( fid, 1 )
 
 ## copy_buffer_bytes, copy the image buffer bytes to uint8 vector, the lenght will depend on the pixel format
 imbuff = copy_buffer_bytes(640*480*2)
+## copy frame data: raw + width + height + pixelformat
+frame = Video4Linux.copy_buffer_frame()
+#do some convertions on frame
+img = Video4Linux.convert(Gray, frame)
+imc = Video4Linux.convert(YCbCr, frame)
+imshow(img)
 
 ## stop_capturing(fd);
 stop_capturing(fid)
