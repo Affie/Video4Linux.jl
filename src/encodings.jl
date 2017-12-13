@@ -175,7 +175,6 @@ function (decoder::UYVY)(im444::Array{UInt8,3})
     return nothing
 end
 
-
 struct YUYVonlyY <: AbstractEncodings
     width::Int
     height::Int
