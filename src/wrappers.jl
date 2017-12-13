@@ -99,14 +99,24 @@ function close_device(fid::Int32)
 end
 
 ##
-# struct to save the buffer data
+struct RawFrame
+    data::Vector{UInt8}
+    width::Int
+    height::Int
+    pixelformat::Symbol
+end
+
+# struct to save the buffer data # and pixel format
 struct Buffer8
     start::Ptr{UInt8}
     length::Csize_t
+    width::UInt32
+    height::UInt32
+    pixelformat::UInt32
 end
 
 function get_global_bufferU8()
-    buffers = cglobal((:buffers, :libv4lcapture), Ptr{Buffer8})
+    # buffers = cglobal((:buffers, :libv4lcapture), Ptr{Buffer8})
     buffers = cglobal((:buffers, :libv4lcapture), Ptr{Buffer8})
     buf1 = unsafe_load(buffers,1)
     buf = unsafe_load(buf1,1)
@@ -145,4 +155,17 @@ function copy_buffer_bytes!(im::Vector{UInt8}, numbytes::Int64)
     end
     unsafe_copy!(pointer(im), buf.start, numbytes)
     return nothing
+end
+
+
+"""
+    copy_buffer_frame()
+
+
+"""
+function copy_buffer_frame()
+    buf = get_global_bufferU8()
+    newframe = RawFrame(zeros(UInt8, buf.length), Int(buf.width), Int(buf.height), Symbol(reinterpret(UInt8, [buf.pixelformat])))
+    unsafe_copy!(pointer(newframe.data), buf.start, buf.length)
+    return newframe
 end

@@ -1,5 +1,5 @@
 using Video4Linux
-using Colors, ColorTypes
+using Colors, ColorTypes, FixedPointNumbers
 using Base.Test
 
 
@@ -35,7 +35,10 @@ using Base.Test
 
     @test im == reshape(YCbCr.(A[:,1], A[:,2], A[:,3]),(2,2))
 
-
+    #using convert
+    frame = Video4Linux.RawFrame(testu8, 2, 2, :UYVY)
+    @test Video4Linux.convert(YCbCr, frame) == reshape(YCbCr.(A[:,1], A[:,2], A[:,3]),(2,2))
+    @test Video4Linux.convert(Gray, frame)  == reinterpret(Gray{N0f8},UInt8.(reshape((A[:,1]),(2,2))))
 
     testu8 = zeros(UInt8,8)
     y = 0x00
@@ -53,6 +56,11 @@ using Base.Test
 
     im = Video4Linux.convertYUYVtoArray(testu8, 2, 2)
     @test im == reshape(A,(2,2,3))
+
+    #using convert
+    frame = Video4Linux.RawFrame(testu8, 2, 2, :YUYV)
+    @test Video4Linux.convert(YCbCr, frame) == reshape(YCbCr.(A[:,1], A[:,2], A[:,3]),(2,2))
+    @test Video4Linux.convert(Gray, frame)  == reinterpret(Gray{N0f8},UInt8.(reshape((A[:,1]),(2,2))))
 
     #wrapper
     @test set_io_method() == nothing
