@@ -29,4 +29,6 @@ include("wrappers.jl")
 include("encodings.jl")
 include("videotasks.jl")
 
+include("libv4l2.jl")
+
 end # module
