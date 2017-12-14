@@ -169,3 +169,17 @@ function copy_buffer_frame()
     unsafe_copy!(pointer(newframe.data), buf.start, buf.length)
     return newframe
 end
+
+
+function get_v4l2_format(fid::Int32, pix::v4l2_pix_format)
+    # get_v4l2_format(int fd, struct v4l2_pix_format *pix)
+    fid == -1 && error("Bad file descriptor")
+    ccall((:get_v4l2_format,:libv4lcapture), Int32, (Int32, Ref{v4l2_pix_format}), fid, pix)
+end
+
+//setting not working yet
+function set_v4l2_format(fid::Int32, pix::v4l2_pix_format)
+    # get_v4l2_format(int fd, struct v4l2_pix_format *pix)
+    fid == -1 && error("Bad file descriptor")
+    ccall((:get_v4l2_format,:libv4lcapture), Int32, (Int32, Ref{v4l2_pix_format}), fid, pix)
+end
