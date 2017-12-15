@@ -649,3 +649,59 @@ void test_stringin(char * stringin)
 {
 	fprintf(stderr, "String %s", stringin);
 }
+
+
+int get_v4l2_format(int fd, struct v4l2_pix_format *pix)
+{
+        struct v4l2_format fmt;
+        CLEAR(fmt);
+
+        fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+        if (-1 == xioctl(fd, VIDIOC_G_FMT, &fmt)){
+                errno_display("VIDIOC_G_FMT");
+                return EXIT_FAILURE;
+        }
+        // as a test only do a few manually
+        // pix->width  	 = fmt.fmt.pix.width;
+        // pix->height 	 = fmt.fmt.pix.height;
+        // pix->pixelformat = fmt.fmt.pix.pixelformat;
+        // pix->field       = fmt.fmt.pix.field;
+        memcpy(pix, &fmt.fmt.pix, sizeof(fmt.fmt.pix));
+
+        return EXIT_SUCCESS;
+}
+
+//setting not working yet
+int set_v4l2_format(int fd, struct v4l2_pix_format *pix)
+{
+        struct v4l2_format fmt;
+        CLEAR(fmt);
+
+        memcpy(&fmt.fmt.pix, pix, sizeof(fmt.fmt.pix));
+
+        fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+
+        if (-1 == xioctl(fd, VIDIOC_S_FMT, &fmt)){
+                errno_display("VIDIOC_S_FMT");
+                return EXIT_FAILURE;
+        }
+
+        return EXIT_SUCCESS;
+}
+
+
+int jlioctl(int fh, int request, void *arg)
+{
+        int r;
+
+        do {
+                r = ioctl(fh, request, arg);
+        } while (r == -1 && ((errno == EINTR) || (errno == EAGAIN)));
+
+        if (r == -1) {
+                fprintf(stderr, "error %d, %s\\n", errno, strerror(errno));
+                return EXIT_FAILURE;
+        }
+        return EXIT_SUCCESS;
+}
