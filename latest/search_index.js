@@ -68,7 +68,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.IOMethods",
     "page": "Functions",
     "title": "Video4Linux.IOMethods",
-    "category": "Type",
+    "category": "type",
     "text": "Enumerated type for IO method used\n\n\n\n"
 },
 
@@ -76,7 +76,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.set_io_method",
     "page": "Functions",
     "title": "Video4Linux.set_io_method",
-    "category": "Function",
+    "category": "function",
     "text": "function set_io_method(method::IOMethods)\n\nSet the IO method to one of the following enumerated types:\n\n    Video4Linux.IO_METHOD_READ\n    Video4Linux.IO_METHOD_MMAP\n    Video4Linux.IO_METHOD_USERPTR\n\n\n\n"
 },
 
@@ -84,7 +84,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.open_device",
     "page": "Functions",
     "title": "Video4Linux.open_device",
-    "category": "Function",
+    "category": "function",
     "text": "open_device(deviceSting)\n\nOpen v4l2 video device [/dev/video0], returns device hanle [Int32]\n\n\n\n"
 },
 
@@ -92,7 +92,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.init_device",
     "page": "Functions",
     "title": "Video4Linux.init_device",
-    "category": "Function",
+    "category": "function",
     "text": "init_device(devicHandle)\n\nInitialize already opened device. Returns 0 on success.\n\n\n\n"
 },
 
@@ -100,7 +100,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.start_capturing",
     "page": "Functions",
     "title": "Video4Linux.start_capturing",
-    "category": "Function",
+    "category": "function",
     "text": "start_capturing(devicHandle)\n\nStart capturing on opened and initialized device. Returns 0 on success.\n\n\n\n"
 },
 
@@ -108,7 +108,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.mainloop",
     "page": "Functions",
     "title": "Video4Linux.mainloop",
-    "category": "Function",
+    "category": "function",
     "text": "mainloop(devicHandle, frameCount)\n\nRun main capute loop [frameCount] times. Returns 0 on success.\n\n\n\n"
 },
 
@@ -116,7 +116,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.stop_capturing",
     "page": "Functions",
     "title": "Video4Linux.stop_capturing",
-    "category": "Function",
+    "category": "function",
     "text": "stop_capturing(devicHandle)\n\nStop capturing on opened device. Returns 0 on success.\n\n\n\n"
 },
 
@@ -124,7 +124,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.uninit_device",
     "page": "Functions",
     "title": "Video4Linux.uninit_device",
-    "category": "Function",
+    "category": "function",
     "text": "uninit_device(devicHandle)\n\nUninitialize already opened device. Returns 0 on success.\n\n\n\n"
 },
 
@@ -132,7 +132,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.close_device",
     "page": "Functions",
     "title": "Video4Linux.close_device",
-    "category": "Function",
+    "category": "function",
     "text": "close_device(devicHandle)\n\nClose already opened device. Returns 0 on success.\n\n\n\n"
 },
 
@@ -140,7 +140,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.copy_buffer_bytes",
     "page": "Functions",
     "title": "Video4Linux.copy_buffer_bytes",
-    "category": "Function",
+    "category": "function",
     "text": "copy_buffer_bytes(numBytes)\n\nCopy [numBytes] from buffer to new buffer [Array{UInt8,1}]\n\n\n\n"
 },
 
@@ -148,7 +148,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.copy_buffer_bytes!",
     "page": "Functions",
     "title": "Video4Linux.copy_buffer_bytes!",
-    "category": "Function",
+    "category": "function",
     "text": "copy_buffer_bytes!(outbuffer, numBytes)\n\nCopy [numBytes] from buffer to existing buffer outbuffer[Array{UInt8,1}]\n\n\n\n"
 },
 
@@ -164,7 +164,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.videoproducer",
     "page": "Functions",
     "title": "Video4Linux.videoproducer",
-    "category": "Function",
+    "category": "function",
     "text": "vidproducer(c::Channel, reader::T, devicename::String = \"/dev/video0\",  N::Int = 100) where T <: AbstractEncodings\n\n\n\n"
 },
 
@@ -180,7 +180,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.UYVYextractY",
     "page": "Functions",
     "title": "Video4Linux.UYVYextractY",
-    "category": "Function",
+    "category": "function",
     "text": "UYVYextractY(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nExtract the Y component out of a 4:2:2 YCbCr buffer\n\n\n\n"
 },
 
@@ -188,7 +188,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.convertYUYVtoArray",
     "page": "Functions",
     "title": "Video4Linux.convertYUYVtoArray",
-    "category": "Function",
+    "category": "function",
     "text": "convertYUYVtoArray(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nConvert a 4:2:2 encoded YCbCr buffer [::Vector{UInt8}] to full 4:4:4 buffer [::Matrix{UInt8}[3]]\n\n\n\n"
 },
 
@@ -196,7 +196,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.convertY10BtoU16",
     "page": "Functions",
     "title": "Video4Linux.convertY10BtoU16",
-    "category": "Function",
+    "category": "function",
     "text": "convertY10BtoU16(imbuff::Vector{UInt8})\n\nConvert a packed 10 bit grayscale buffer [::Vector{UInt8}] to 16 bit padded buffer [::Vector{UInt16}] [x x x x x x b9 b8 b7 b6 b5 b4 b3 b2 b1 b0]\n\n\n\n"
 },
 
@@ -204,7 +204,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.convertUYVYtoYCbCr",
     "page": "Functions",
     "title": "Video4Linux.convertUYVYtoYCbCr",
-    "category": "Function",
+    "category": "function",
     "text": "convertUYVYtoYCbCr(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nConvert a UYVY 4:2:2 encoded YCbCr buffer [::Vector{UInt8}] to full YCbCr\n\n\n\n"
 },
 
@@ -212,7 +212,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.convertYUYVtoYCbCr",
     "page": "Functions",
     "title": "Video4Linux.convertYUYVtoYCbCr",
-    "category": "Function",
+    "category": "function",
     "text": "convertYUYVtoYCbCr(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nConvert a UYVY 4:2:2 encoded YCbCr buffer [::Vector{UInt8}] to full YCbCr\n\n\n\n"
 },
 
@@ -220,7 +220,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.convertUYVYtoArray",
     "page": "Functions",
     "title": "Video4Linux.convertUYVYtoArray",
-    "category": "Function",
+    "category": "function",
     "text": "convertUYVYtoArray(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nConvert a 4:2:2 encoded YCbCr buffer [::Vector{UInt8}] to full 4:4:4 buffer [::Matrix{UInt8}[3]]\n\n\n\n"
 },
 
@@ -228,7 +228,7 @@ var documenterSearchIndex = {"docs": [
     "location": "func_ref.html#Video4Linux.YUYVextractY",
     "page": "Functions",
     "title": "Video4Linux.YUYVextractY",
-    "category": "Function",
+    "category": "function",
     "text": "UYVYextractY(imbuff::Vector{UInt8}, width::Int, height::Int)\n\nExtract the Y component out of a 4:2:2 YCbCr buffer\n\n\n\n"
 },
 
