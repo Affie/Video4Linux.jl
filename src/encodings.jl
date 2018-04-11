@@ -109,19 +109,23 @@ Convert a 4:2:2 encoded YCbCr buffer [`::Vector{UInt8}`] to full 4:4:4 buffer [`
 function convertYUYVtoArray(imbuff::Vector{UInt8}, width::Int, height::Int)
 
     halfwidth = div(width,2)
+    lenimb = length(imbuff)
 
-    imY = reshape(imbuff[1:2:end],(width,height))'
+    imY = reshape(view(imbuff, 1:2:lenimb),(width,height))'
 
     #recover colors
-    imCbCr = imbuff[2:2:end]
+    imCbCr = view(imbuff, 2:2:lenimb) #imbuff[2:2:end]
+    lenimc = length(imCbCr)
+    oneone = [1 1]
 
-    imCb = kron(reshape(imCbCr[1:2:end], (halfwidth,height))', [1 1])
+    # imCb = kron(reshape(imCbCr[1:2:end], (halfwidth,height))', oneone)
+    imCb = kron(reshape(view(imCbCr, 1:2:lenimc), (halfwidth,height))', oneone)
 
-    imCr = kron(reshape(imCbCr[2:2:end], (halfwidth,height))', [1 1])
+    # imCr = kron(reshape(imCbCr[2:2:end], (halfwidth,height))', oneone)
+    imCr = kron(reshape(view(imCbCr, 1:2:lenimc), (halfwidth,height))', oneone)
 
-    #create YCbCr array
+    #create YCbCr array -- try avoid memory creation process
     return cat(3, imY, imCb, imCr)
-
 end
 
 """
@@ -151,8 +155,8 @@ struct UYVYonlyY <: AbstractEncodings
     height::Int
     depth::Int
     datatype::DataType
+    UYVYonlyY(width::Int, height::Int) = new(width, height, 1, UInt8)
 end
-UYVYonlyY(width::Int, height::Int) = UYVYonlyY(width, height, 1, UInt8)
 
 function (decoder::UYVYonlyY)(imy::Array{UInt8,2})
     imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
@@ -166,8 +170,8 @@ struct UYVY <: AbstractEncodings
     height::Int
     depth::Int
     datatype::DataType
+    UYVY(width::Int, height::Int) = new(width, height, 3, UInt8)
 end
-UYVY(width::Int, height::Int) = UYVY(width, height, 3, UInt8)
 
 function (decoder::UYVY)(im444::Array{UInt8,3})
     imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
@@ -180,8 +184,8 @@ struct YUYVonlyY <: AbstractEncodings
     height::Int
     depth::Int
     datatype::DataType
+    YUYVonlyY(width::Int, height::Int) = new(width, height, 1, UInt8)
 end
-YUYVonlyY(width::Int, height::Int) = YUYVonlyY(width, height, 1, UInt8)
 
 function (decoder::YUYVonlyY)(imy::Array{UInt8,2})
     imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
@@ -195,8 +199,8 @@ struct YUYV <: AbstractEncodings
     height::Int
     depth::Int
     datatype::DataType
+    YUYV(width::Int, height::Int) = new(width, height, 3, UInt8)
 end
-YUYV(width::Int, height::Int) = YUYV(width, height, 3, UInt8)
 
 function (decoder::YUYV)(im444::Array{UInt8,3})
     imbuff = copy_buffer_bytes(decoder.width * decoder.height * 2)
@@ -210,8 +214,8 @@ struct Y10B <: AbstractEncodings
     height::Int
     depth::Int
     datatype::DataType
+    Y10B(width::Int, height::Int) = new(width, height, 1, UInt16)
 end
-Y10B(width::Int, height::Int) = Y10B(width, height, 1, UInt16)
 
 function (decoder::Y10B)(imy10b::Array{UInt16,2})
     imbuff = copy_buffer_bytes(div(decoder.width * decoder.height * 10,8))
