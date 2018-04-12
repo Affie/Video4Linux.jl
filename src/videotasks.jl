@@ -1,9 +1,19 @@
+global breakFromLoop = false
+
+"""
+    stopVideoProducer()
+Stop the running video producer and close the device and channel.
+"""
+function stopVideoProducer()
+    global breakFromLoop = true
+end
+
 """
     vidproducer(c::Channel, reader::T, devicename::String = "/dev/video0",  N::Int = 100) where T <: AbstractEncodings
 
 """
 function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0",  N::Int = 100, iomethod::IOMethods = Video4Linux.IO_METHOD_READ) where T <: AbstractEncodings
-
+    global breakFromLoop = false
     ##
     set_io_method(iomethod)
 
@@ -27,6 +37,9 @@ function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0
         ## copy_buffer_bytes, copy the image buffer bytes to uint8 vector, the lenght will depend on the pixel format
         decoder(imy)
         put!(c, imy)
+        if breakFromLoop
+            break
+        end
     end
 
     ## stop_capturing(fd);
