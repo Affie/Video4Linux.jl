@@ -23,7 +23,8 @@ convertYUYVtoYCbCr,
 
 
 #videotasks
-videoproducer
+videoproducer,
+stopVideoProducer
 
 include("wrappers.jl")
 include("encodings.jl")
