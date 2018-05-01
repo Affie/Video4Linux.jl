@@ -26,6 +26,8 @@ convertYUYVtoYCbCr,
 videoproducer,
 stopVideoProducer
 
+include("v4l2header.jl")
+
 include("wrappers.jl")
 include("encodings.jl")
 include("videotasks.jl")

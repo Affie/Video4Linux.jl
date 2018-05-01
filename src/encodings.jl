@@ -1,4 +1,6 @@
-using Colors, ColorTypes
+using Colors, ColorTypes, FixedPointNumbers
+
+import Base: convert
 
 function make_bitvector(v::Vector{UInt8})
     siz = sizeof(v)
@@ -217,4 +219,29 @@ function (decoder::Y10B)(imy10b::Array{UInt16,2})
     imbuff = copy_buffer_bytes(div(decoder.width * decoder.height * 10,8))
     imy10b[:] = reshape(convertY10BtoU16(imbuff), (decoder.width, decoder.height))'
     return nothing
+end
+
+
+#Convertions
+function convert(::Type{Gray}, rf::RawFrame)
+    if rf.pixelformat == :UYVY
+        return reinterpret(Gray{N0f8}, UYVYextractY(rf.data, rf.width, rf.height))
+    elseif rf.pixelformat == :YUYV
+        return reinterpret(Gray{N0f8}, YUYVextractY(rf.data, rf.width, rf.height))
+    elseif rf.pixelformat == :Y10B
+        buflenght = div(rf.width * rf.height * 10, 8) #10 bits per pixel / 8 bits per byte
+        return reinterpret(Gray{N0f16}, reshape(  convertY10BtoU16(rf.data[1:buflenght])  ,(rf.width,rf.height))')
+    else
+        error("Frame format $(rf.pixelformat) possibly not implemented yet")
+    end
+end
+
+function convert(::Type{YCbCr}, rf::RawFrame)
+    if rf.pixelformat == :UYVY
+        return convertUYVYtoYCbCr(rf.data, rf.width, rf.height)
+    elseif rf.pixelformat == :YUYV
+        return convertYUYVtoYCbCr(rf.data, rf.width, rf.height)
+    else
+        error("Frame format $(rf.pixelformat) possibly not implemented yet, or not supported.")
+    end
 end
