@@ -23,7 +23,8 @@ convertYUYVtoYCbCr,
 
 
 #videotasks
-videoproducer
+videoproducer,
+stopVideoProducer
 
 include("v4l2header.jl")
 
