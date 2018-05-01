@@ -668,11 +668,11 @@ int get_v4l2_format(int fd, struct v4l2_pix_format *pix)
         // pix->pixelformat = fmt.fmt.pix.pixelformat;
         // pix->field       = fmt.fmt.pix.field;
         memcpy(pix, &fmt.fmt.pix, sizeof(fmt.fmt.pix));
-
+        // fprintf(stderr, "sizeof fmt: %lu\n", sizeof(fmt.fmt.pix));
         return EXIT_SUCCESS;
 }
 
-//setting not working yet
+
 int set_v4l2_format(int fd, struct v4l2_pix_format *pix)
 {
         struct v4l2_format fmt;
