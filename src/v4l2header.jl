@@ -43,6 +43,7 @@ end
     V4L2_BUF_TYPE_SDR_OUTPUT = (UInt32)(12),
     V4L2_BUF_TYPE_PRIVATE = (UInt32)(128))
 
+#= <<<<<<< HEAD
 mutable struct fmt_union
     pix::v4l2_pix_format
 end
@@ -65,3 +66,17 @@ v4l2_format() = v4l2_format(V4L2_BUF_TYPE_VIDEO_CAPTURE, fmt_union(v4l2_pix_form
 # fmt = Video4Linux.v4l2_format()
 # blokmem = zeros(UInt32,204)
 # iocontrol = Video4Linux.v4l2_ioctl(fd, VIDIOC_G_FMT, Ref(blokmem))
+=## =======
+
+mutable struct v4l2_format
+    _type::v4l2_buf_type
+    fmt::v4l2_pix_format #TODO die moet 'n union wees, maar word nie gesteun nie, dalk werk dit met padding? neem aan grootste is __u8	raw_data[200] so pad fmt
+end
+
+v4l2_pix_format() = v4l2_pix_format(zeros(UInt32,12)..., zeros(UInt128,9)..., UInt64(0))
+v4l2_format() = v4l2_format(V4L2_BUF_TYPE_VIDEO_CAPTURE, v4l2_pix_format())
+
+# const VIDIOC_S_FMT = 0xc0d05605
+# fmt = Video4Linux.v4l2_format()
+# iocontrol = Video4Linux.v4l2_ioctl(fd, VIDIOC_S_FMT, fmt)
+# >>>>>>> master

@@ -93,7 +93,7 @@ static int read_frame(int fd)
                         }
                 }
                 // process_image(buffers[0].start, buffers[0].length);
-                fprintf(stderr, "bytes: %lu\n",  buffers[0].length);
+                // fprintf(stderr, "bytes: %lu\n",  buffers[0].length);
                 break;
 
         case IO_METHOD_MMAP:
@@ -122,7 +122,7 @@ static int read_frame(int fd)
                 assert(buf.index < n_buffers);
 
                 // process_image(buffers[buf.index].start, buf.bytesused);
-                fprintf(stderr, "bytes: %d\n",  buf.bytesused);
+                // fprintf(stderr, "bytes: %d\n",  buf.bytesused);
 
                 if (-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
                         errno_display("VIDIOC_QBUF");
@@ -161,7 +161,7 @@ static int read_frame(int fd)
                 assert(i < n_buffers);
 
                 // process_image((void *)buf.m.userptr, buf.bytesused);
-                fprintf(stderr, "bytes: %d\n",  buf.bytesused);
+                // fprintf(stderr, "bytes: %d\n",  buf.bytesused);
 
                 if (-1 == xioctl(fd, VIDIOC_QBUF, &buf)){
                         errno_display("VIDIOC_QBUF");
@@ -668,11 +668,11 @@ int get_v4l2_format(int fd, struct v4l2_pix_format *pix)
         // pix->pixelformat = fmt.fmt.pix.pixelformat;
         // pix->field       = fmt.fmt.pix.field;
         memcpy(pix, &fmt.fmt.pix, sizeof(fmt.fmt.pix));
-
+        // fprintf(stderr, "sizeof fmt: %lu\n", sizeof(fmt.fmt.pix));
         return EXIT_SUCCESS;
 }
 
-//setting not working yet
+
 int set_v4l2_format(int fd, struct v4l2_pix_format *pix)
 {
         struct v4l2_format fmt;
