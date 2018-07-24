@@ -6,7 +6,7 @@ using Video4Linux
 function displayliveYonly!(im1, vidchan)
 
     im1[:] = reinterpret(Gray{N0f8},take!(vidchan))
-    imshow(canvas["gui"]["canvas"], im1)
+    ImageView.imshow!(canvas["gui"]["canvas"], im1, canvas["annotations"])
 
 end
 
@@ -40,8 +40,7 @@ function displaylive!(im1, vidchan)
 
     A =  take!(vidchan)
     im1 = RGB.(YCbCr.(A[:,:,1], A[:,:,2], A[:,:,3]))
-    imshow(canvas["gui"]["canvas"], im1)
-
+    ImageView.imshow!(canvas["gui"]["canvas"], im1, canvas["annotations"])
 end
 
 # ycrcb = Video4Linux.UYVY(640,480)
@@ -69,8 +68,7 @@ end
 
 function displaylive10bit!(im1, vidchan)
     im1 = take!(vidchan)
-    imshow(canvas["gui"]["canvas"], im1)
-
+    ImageView.imshow!(canvas["gui"]["canvas"], im1, canvas["annotations"])
 end
 
 y10b = Video4Linux.Y10B(640,480)
