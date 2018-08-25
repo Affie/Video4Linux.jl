@@ -5,7 +5,7 @@ Enumerated type for IO method used
 @enum IOMethods IO_METHOD_READ = 0 IO_METHOD_MMAP = 1 IO_METHOD_USERPTR = 3
 
 function set_io_method(method::Int32 = Int32(0))
-    ccall((:set_io_method,:libv4lcapture), Void, (Int32,), method)
+    ccall((:set_io_method,:libv4lcapture), Nothing, (Int32,), method)
 end
 
 """
@@ -18,7 +18,7 @@ Set the IO method to one of the following enumerated types:
 ```
 """
 function set_io_method(method::IOMethods)
-    ccall((:set_io_method,:libv4lcapture), Void, (Int32,), Int32(method))
+    ccall((:set_io_method,:libv4lcapture), Nothing, (Int32,), Int32(method))
 end
 
 """
