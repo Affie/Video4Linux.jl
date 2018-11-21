@@ -1,6 +1,6 @@
 using Video4Linux
 using Colors, ColorTypes, FixedPointNumbers
-using Base.Test
+using Test
 
 
 @testset "Video4Linux" begin
