@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · Video4Linux.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link href="assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>Video4Linux.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li class="current"><a class="toctext" href>Home</a><ul class="internal"><li><a class="toctext" href="#Installation-1">Installation</a></li><li><a class="toctext" href="#Device-Setup-1">Device Setup</a></li><li><a class="toctext" href="#Kinect-Example-1">Kinect Example</a></li><li><a class="toctext" href="#Manual-Outline-1">Manual Outline</a></li></ul></li><li><a class="toctext" href="func_ref/">Functions</a></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Home</a></li></ul><a class="edit-page" href="https://github.com/Affie/Video4Linux.jl/blob/master/docs/src/index.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Home</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Video4Linux.jl-1" href="#Video4Linux.jl-1">Video4Linux.jl</a></h1><p>The aim of this package is to provide lower level access to the v4l2 driver for raw data manipulation. As much as possible should be implemented in Julia. This is work in progress and any suggestions and contributions are very welcome.  </p><p><a href="https://travis-ci.org/Affie/Video4Linux.jl"><img src="https://travis-ci.org/Affie/Video4Linux.jl.svg?branch=master" alt="Build Status"/></a></p><p><a href="http://codecov.io/github/Affie/Video4Linux.jl?branch=master"><img src="http://codecov.io/github/Affie/Video4Linux.jl/coverage.svg?branch=master" alt="codecov.io"/></a></p><h2><a class="nav-anchor" id="Installation-1" href="#Installation-1">Installation</a></h2><p>The package is currently unregistered and can be installed and build with: (replace YOURREPONAME with your github fork name)</p><pre><code class="language-julia">Pkg.clone(&quot;https://github.com/YOURREPONAME/Video4Linux.jl.git&quot;)
+Pkg.build(&quot;Video4Linux&quot;)</code></pre><h2><a class="nav-anchor" id="Device-Setup-1" href="#Device-Setup-1">Device Setup</a></h2><p>No automatic setup is currently performed but there are utilities to make this easy: qv4l2 (install with: <code>sudo apt-get install qv4l2</code>) qv4l2 provides a gui of the ioctl of the device. Settings such as frame size and capture format can easily be changed.</p><h2><a class="nav-anchor" id="Kinect-Example-1" href="#Kinect-Example-1">Kinect Example</a></h2><p>Currently the only camera tested is the Kenect using the v4l2 kernel driver.   This example was run on an raspberry pi 3 with Rasbian and julia 0.6.    The kenect driver can be set to depth mode with:   <code>sudo rmmod gspca_kinect</code>   <code>sudo modprobe gspca_kinect depth_mode = 1</code>  </p><pre><code class="language-julia">using Video4Linux
+using ImageView
+using Colors, ColorTypes
+
+# Warning! no memory and device protection is implemented yet, therefore doing things out of order will cause julia to crash!
+## set io method to read() for the Kenect depth image. NOTE: if your device does not support read try using Video4Linux.IO_METHOD_MMAP
+set_io_method(Video4Linux.IO_METHOD_READ)
+## open device
+fid = open_device(&quot;/dev/video0&quot;)
+## init_device(fd, force_format);
+init_device(fid)
+## start_capturing(fd);
+start_capturing(fid)
+## mainloop(fd, frame_count);
+mainloop( fid, 1 )
+## copy_buffer_bytes, copy the image buffer bytes to uint8 vector, the lenght will depend on the pixel format
+imbuff = copy_buffer_bytes(640*480*2)
+## stop_capturing(fd);
+stop_capturing(fid)
+## uninit_device();
+uninit_device(fid)
+## close device
+close_device(fid)
+## kenect 1 depth image, set kernel to depth with:
+depthvec = convertY10BtoU16(imbuff[1:384000])
+depthim = reshape(depthvec,(640,480))&#39;
+imshow(depthim)</code></pre><p><img src="../depthonpi.png" alt="kenect depth image"/></p><h2><a class="nav-anchor" id="Manual-Outline-1" href="#Manual-Outline-1">Manual Outline</a></h2><ul><li><a href="#Video4Linux.jl-1">Video4Linux.jl</a></li><ul><li><a href="#Installation-1">Installation</a></li><li><a href="#Device-Setup-1">Device Setup</a></li><li><a href="#Kinect-Example-1">Kinect Example</a></li><li><a href="#Manual-Outline-1">Manual Outline</a></li><li><a href="func_ref/#Function-Reference-1">Function Reference</a></li><li><a href="func_ref/#Index-1">Index</a></li></ul></ul><footer><hr/><a class="next" href="func_ref/"><span class="direction">Next</span><span class="title">Functions</span></a></footer></article></body></html>
