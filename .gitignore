@@ -2,8 +2,9 @@
 *.jl.*.cov
 *.jl.mem
 *.so
-
+Manifest.toml
 deps/v4lcapture/build/
 deps/loadpath.jl
+deps/build.log
 docs/build
 sandbox

@@ -5,7 +5,7 @@ Enumerated type for IO method used
 @enum IOMethods IO_METHOD_READ = 0 IO_METHOD_MMAP = 1 IO_METHOD_USERPTR = 3
 
 function set_io_method(method::Int32 = Int32(0))
-    ccall((:set_io_method,:libv4lcapture), Void, (Int32,), method)
+    ccall((:set_io_method,:libv4lcapture), Nothing, (Int32,), method)
 end
 
 """
@@ -18,7 +18,7 @@ Set the IO method to one of the following enumerated types:
 ```
 """
 function set_io_method(method::IOMethods)
-    ccall((:set_io_method,:libv4lcapture), Void, (Int32,), Int32(method))
+    ccall((:set_io_method,:libv4lcapture), Nothing, (Int32,), Int32(method))
 end
 
 """
@@ -134,7 +134,7 @@ function copy_buffer_bytes(numbytes::Int64)
         error("Trying to read more bytes than buffer size:")
     end
     im = zeros(UInt8, numbytes)
-    unsafe_copy!(pointer(im), buf.start, numbytes)
+    unsafe_copyto!(pointer(im), buf.start, numbytes)
     return im
 end
 
@@ -153,7 +153,7 @@ function copy_buffer_bytes!(im::Vector{UInt8}, numbytes::Int64)
         resize!(im, numbytes)
         warn("Output buffer size does not match number of bytes to be read, resizing.")
     end
-    unsafe_copy!(pointer(im), buf.start, numbytes)
+    unsafe_copyto!(pointer(im), buf.start, numbytes)
     return nothing
 end
 
@@ -165,8 +165,8 @@ end
 """
 function copy_buffer_frame()
     buf = get_global_bufferU8()
-    newframe = RawFrame(zeros(UInt8, buf.length), Int(buf.width), Int(buf.height), Symbol(reinterpret(UInt8, [buf.pixelformat])))
-    unsafe_copy!(pointer(newframe.data), buf.start, buf.length)
+    newframe = RawFrame(zeros(UInt8, buf.length), Int(buf.width), Int(buf.height), Symbol(String(reinterpret(UInt8, [buf.pixelformat]))))
+    unsafe_copyto!(pointer(newframe.data), buf.start, buf.length)
     return newframe
 end
 

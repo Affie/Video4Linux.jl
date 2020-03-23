@@ -1,8 +1,11 @@
-using Documenter, Video4Linux
+using Documenter, Pkg
+
+Pkg.build("Video4Linux")
+using Video4Linux
 
 makedocs(
     modules = [Video4Linux],
-    format = :html,
+    format = Documenter.HTML(),
     sitename = "Video4Linux.jl",
     pages = Any[
         "Home" => "index.md",
@@ -14,11 +17,7 @@ makedocs(
 
 deploydocs(
     repo   = "github.com/Affie/Video4Linux.jl.git",
-    target = "build",
-    deps   = nothing,
-    make   = nothing,
-    julia  = "0.6",
-    osname = "linux"
+    target = "build"
 )
 
 

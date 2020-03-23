@@ -1,7 +1,10 @@
+__precompile__()
 module Video4Linux
 
-@show depfile = joinpath(dirname(@__FILE__),"../deps/loadpath.jl")
-isfile(depfile) ? include(depfile) : error("Video4Linux not properly installed. Please run: Pkg.build(\"Video4Linux\")")
+function __init__()
+    @show depfile = joinpath(dirname(@__FILE__),"../deps/loadpath.jl")
+    isfile(depfile) ? include(depfile) : error("Video4Linux not properly installed. Please run: Pkg.build(\"Video4Linux\")")
+end
 
 export
 #wrappers

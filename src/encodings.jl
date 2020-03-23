@@ -5,7 +5,7 @@ import Base: convert
 function make_bitvector(v::Vector{UInt8})
     siz = sizeof(v)
     bv = falses(siz<<3)
-    unsafe_copy!(reinterpret(Ptr{UInt8}, pointer(bv.chunks)), pointer(v), siz)
+    unsafe_copyto!(reinterpret(Ptr{UInt8}, pointer(bv.chunks)), pointer(v), siz)
     bv
 end
 
@@ -18,7 +18,7 @@ Convert a packed 10 bit grayscale buffer [`::Vector{UInt8}`] to 16 bit padded bu
 function convertY10BtoU16(imbuff::Vector{UInt8} )
 
     L = length(imbuff)
-    bv = flipdim(reshape(make_bitvector(imbuff[(L):-1:1]),10,:)',1)
+    bv = reverse(reshape(make_bitvector(imbuff[(L):-1:1]),10,:)',dims=1)
 
     #convert bit array back to Array{UInt16}
     values = zeros(UInt16, size(bv,1))
@@ -122,7 +122,7 @@ function convertYUYVtoArray(imbuff::Vector{UInt8}, width::Int, height::Int)
     imCr = kron(reshape(imCbCr[2:2:end], (halfwidth,height))', [1 1])
 
     #create YCbCr array
-    return cat(3, imY, imCb, imCr)
+    return cat(imY, imCb, imCr, dims=3)
 
 end
 

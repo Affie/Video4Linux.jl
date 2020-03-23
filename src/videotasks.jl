@@ -26,7 +26,7 @@ function videoproducer(c::Channel, decoder::T; devicename::String = "/dev/video0
     ## start_capturing(fd);
     start_capturing(fid) != 0 && error("Erro in start_capturing")
 
-    imy = (decoder.depth > 1)? zeros(decoder.datatype, decoder.height, decoder.width, decoder.depth) :
+    imy = (decoder.depth > 1) ? zeros(decoder.datatype, decoder.height, decoder.width, decoder.depth) :
                                zeros(decoder.datatype, decoder.height, decoder.width)
 
     NN = N > 0 ? N : Inf
