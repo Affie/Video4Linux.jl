@@ -5,7 +5,7 @@ using Video4Linux
 
 makedocs(
     modules = [Video4Linux],
-    format = :html,
+    format = Documenter.HTML(),
     sitename = "Video4Linux.jl",
     pages = Any[
         "Home" => "index.md",
